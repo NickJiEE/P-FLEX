@@ -178,3 +178,25 @@ li {
     color: #ffdf5e !important;
     font-weight: 700;
 }
+
+/* Contribution Note */
+.contribution-note {
+    margin-top: 3rem;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 1.5rem;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.contributor-link {
+    color: #00d4ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.contributor-link:hover {
+    color: #ffdf5e;
+    text-decoration: underline;
+}
