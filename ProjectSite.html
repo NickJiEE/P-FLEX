@@ -3,21 +3,401 @@
 <head>
     <meta charset="UTF-8">
     <title>P-FLEX Project</title>
-    <link rel="stylesheet" href="stylesheet.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".tree-label.toggle").forEach(label => {
-        label.addEventListener("click", () => {
-        const sublist = label.nextElementSibling;
-        if (sublist) {
-            const isOpen = sublist.style.display === "block";
-            sublist.style.display = isOpen ? "none" : "block";
-            label.classList.toggle("open", !isOpen);
-        }
+    // Chart data
+    const chartData = {
+        dimensions: [
+            {
+                title: "Overall Height (mm)",
+                data: [
+                    { label: "Nilu Hypercar", value: "1220", width: 100 },
+                    { label: "Koenigsegg Jesko Attack", value: "1210", width: 99.2 },
+                    { label: "Koenigsegg Jesko Absolut", value: "1210", width: 99.2 },
+                    { label: "Rimac Nevera R", value: "1208", width: 99.0 },
+                    { label: "Rimac Nevera", value: "1208", width: 99.0 },
+                    { label: "Bugatti Tourbillon", value: "1189", width: 97.5 },
+                    { label: "Giamaro Katla", value: "1188", width: 97.4 },
+                    { label: "GMA T.50", value: "1164", width: 95.4 },
+                    { label: "777 hypercar", value: "1151", width: 94.3 },
+                    { label: "Hennessey Venom F5", value: "1130", width: 92.6 },
+                    { label: "Lotus Evija", value: "1122", width: 91.9 },
+                    { label: "McLaren Speedtail", value: "1120", width: 91.8 },
+                    { label: "McLaren Solus GT", value: "1100", width: 90.2 },
+                    { label: "Czinger 21C V Max", value: "1092", width: 89.5 },
+                    { label: "Aston Martin Valkyrie", value: "1070", width: 87.7 },
+                    { label: "SSC Tuatara", value: "1067", width: 87.5 },
+                    { label: "Praga Bohema", value: "1060", width: 86.9 },
+                    { label: "McMurtry Spéirling", value: "1020", width: 83.6 },
+                    { label: "P-FLEX", value: "924-1008", width: 82.6, highlight: true },
+                    { label: "Bugatti Bolide", value: "995", width: 81.6 }
+                ]
+            },
+            {
+                title: "Width (mm)",
+                data: [
+                    { label: "Giamaro Katla", value: "2250", width: 100 },
+                    { label: "Bugatti Bolide", value: "2100", width: 93.3 },
+                    { label: "SSC Tuatara", value: "2065", width: 91.8 },
+                    { label: "Bugatti Tourbillon", value: "2051", width: 91.2 },
+                    { label: "Czinger 21C V Max", value: "2050", width: 91.1 },
+                    { label: "McLaren Speedtail", value: "2045", width: 90.9 },
+                    { label: "Koenigsegg Jesko Absolut", value: "2030", width: 90.2 },
+                    { label: "Koenigsegg Jesko Attack", value: "2030", width: 90.2 },
+                    { label: "Praga Bohema", value: "2000", width: 88.9 },
+                    { label: "Nilu Hypercar", value: "2000", width: 88.9 },
+                    { label: "777 hypercar", value: "2000", width: 88.9 },
+                    { label: "Lotus Evija", value: "2000", width: 88.9 },
+                    { label: "Rimac Nevera R", value: "1986", width: 88.3 },
+                    { label: "Rimac Nevera", value: "1986", width: 88.3 },
+                    { label: "Hennessey Venom F5", value: "1971", width: 87.6 },
+                    { label: "Aston Martin Valkyrie", value: "1965", width: 87.3 },
+                    { label: "P-FLEX", value: "1600-1860", width: 82.7, highlight: true },
+                    { label: "GMA T.50", value: "1850", width: 82.2 },
+                    { label: "McMurtry Spéirling Pure", value: "1580", width: 70.2 },
+                    { label: "McMurtry Spéirling", value: "1500", width: 66.7 }
+                ]
+            },
+            {
+                title: "Length (mm)",
+                data: [
+                    { label: "McLaren Speedtail", value: "5137", width: 100 },
+                    { label: "Nilu Hypercar", value: "5000", width: 97.3 },
+                    { label: "777 hypercar", value: "5000", width: 97.3 },
+                    { label: "Czinger 21C V Max", value: "4877", width: 94.9 },
+                    { label: "Koenigsegg Jesko Absolut", value: "4845", width: 94.3 },
+                    { label: "Bugatti Bolide", value: "4835", width: 94.1 },
+                    { label: "Rimac Nevera", value: "4750", width: 92.5 },
+                    { label: "Rimac Nevera R", value: "4750", width: 92.5 },
+                    { label: "Bugatti Tourbillon", value: "4671", width: 90.9 },
+                    { label: "Hennessey Venom F5", value: "4666", width: 90.8 },
+                    { label: "SSC Tuatara", value: "4633", width: 90.2 },
+                    { label: "Koenigsegg Jesko Attack", value: "4610", width: 89.7 },
+                    { label: "Praga Bohema", value: "4510", width: 87.8 },
+                    { label: "Aston Martin Valkyrie", value: "4500", width: 87.6 },
+                    { label: "Lotus Evija", value: "4459", width: 86.8 },
+                    { label: "P-FLEX", value: "4000-4370", width: 85.1, highlight: true },
+                    { label: "GMA T.50", value: "4352", width: 84.7 },
+                    { label: "McMurtry Spéirling", value: "3450", width: 67.2 }
+                ]
+            }
+        ],
+        aerodynamics: [
+            {
+                title: "Frontal Area (m²)",
+                data: [
+                    { label: "Nilu Hypercar", value: "3.0", width: 100 },
+                    { label: "Koenigsegg Jesko Attack", value: "3.0", width: 100 },
+                    { label: "Koenigsegg Jesko Absolut", value: "3.0", width: 100 },
+                    { label: "Rimac Nevera R", value: "3.0", width: 100 },
+                    { label: "Rimac Nevera", value: "3.0", width: 100 },
+                    { label: "Bugatti Tourbillon", value: "3.0", width: 100 },
+                    { label: "Giamaro Katla", value: "3.0", width: 100 },
+                    { label: "GMA T.50", value: "3.0", width: 100 },
+                    { label: "777 hypercar", value: "3.0", width: 100 },
+                    { label: "Hennessey Venom F5", value: "3.0", width: 100 },
+                    { label: "Lotus Evija", value: "3.0", width: 100 },
+                    { label: "McLaren Speedtail", value: "3.0", width: 100 },
+                    { label: "McLaren Solus GT", value: "3.0", width: 100 },
+                    { label: "Czinger 21C V Max", value: "3.0", width: 100 },
+                    { label: "Aston Martin Valkyrie", value: "3.0", width: 100 },
+                    { label: "SSC Tuatara", value: "3.0", width: 100 },
+                    { label: "Praga Bohema", value: "3.0", width: 100 },
+                    { label: "McMurtry Spéirling", value: "3.0", width: 100 },
+                    { label: "Bugatti Bolide", value: "3.0", width: 100 },
+                    { label: "P-FLEX", value: "1.6", width: 53.3, highlight: true }
+                ]
+            },
+            {
+                title: "Cd Value",
+                data: [
+                    { label: "Hennessey Venom F5", value: "0.39", width: 100 },
+                    { label: "Rimac Nevera R", value: "0.30", width: 76.9 },
+                    { label: "Rimac Nevera", value: "0.30", width: 76.9 },
+                    { label: "SSC Tuatara", value: "0.279", width: 71.5 },
+                    { label: "McLaren Speedtail", value: "0.278", width: 71.3 },
+                    { label: "Koenigsegg Jesko Absolut", value: "0.278", width: 71.3 },
+                    { label: "P-FLEX", value: "0.180-0.280", width: 59.0, highlight: true }
+                ]
+            }
+        ],
+        performance: [
+            {
+                title: "Power (hp)",
+                data: [
+                    { label: "Giamaro Katla", value: "2127", width: 100 },
+                    { label: "Rimac Nevera R", value: "2107", width: 99.1 },
+                    { label: "Lotus Evija", value: "1972", width: 92.7 },
+                    { label: "Rimac Nevera", value: "1914", width: 90.0 },
+                    { label: "Hennessey Venom F5", value: "1817", width: 85.4 },
+                    { label: "P-FLEX", value: "1800", width: 84.6, highlight: true },
+                    { label: "Bugatti Tourbillon", value: "1800", width: 84.6 },
+                    { label: "Koenigsegg Jesko Absolut", value: "1600", width: 75.2 },
+                    { label: "Koenigsegg Jesko Attack", value: "1600", width: 75.2 },
+                    { label: "Bugatti Bolide", value: "1578", width: 74.2 },
+                    { label: "SSC Tuatara", value: "1350", width: 63.5 },
+                    { label: "Czinger 21C V Max", value: "1350", width: 63.5 },
+                    { label: "Aston Martin Valkyrie", value: "1160", width: 54.5 },
+                    { label: "Nilu Hypercar", value: "1070", width: 50.3 },
+                    { label: "McLaren Speedtail", value: "1036", width: 48.7 },
+                    { label: "McMurtry Spéirling", value: "1000", width: 47.0 },
+                    { label: "McLaren Solus GT", value: "829", width: 39.0 },
+                    { label: "777 hypercar", value: "730", width: 34.3 },
+                    { label: "Praga Bohema", value: "700", width: 32.9 },
+                    { label: "GMA T.50", value: "654", width: 30.7 }
+                ]
+            },
+            {
+                title: "Weight (kg)",
+                data: [
+                    { label: "Rimac Nevera", value: "2300", width: 100 },
+                    { label: "Rimac Nevera R", value: "2277", width: 99.0 },
+                    { label: "Bugatti Tourbillon", value: "1995", width: 86.7 },
+                    { label: "Lotus Evija", value: "1887", width: 82.0 },
+                    { label: "McLaren Speedtail", value: "1597", width: 69.4 },
+                    { label: "Giamaro Katla", value: "1451", width: 63.1 },
+                    { label: "Bugatti Bolide", value: "1450", width: 63.0 },
+                    { label: "Koenigsegg Jesko Attack", value: "1420", width: 61.7 },
+                    { label: "Koenigsegg Jesko Absolut", value: "1390", width: 60.4 },
+                    { label: "Hennessey Venom F5", value: "1360", width: 59.1 },
+                    { label: "Czinger 21C V Max", value: "1335", width: 58.0 },
+                    { label: "SSC Tuatara", value: "1247", width: 54.2 },
+                    { label: "Nilu Hypercar", value: "1200", width: 52.2 },
+                    { label: "McMurtry Spéirling", value: "1200", width: 52.2 },
+                    { label: "Aston Martin Valkyrie", value: "1030", width: 44.8 },
+                    { label: "P-FLEX", value: "880-1008", width: 43.8, highlight: true },
+                    { label: "McLaren Solus GT", value: "1000", width: 43.5 },
+                    { label: "GMA T.50", value: "986-997", width: 43.3 },
+                    { label: "Praga Bohema", value: "982", width: 42.7 },
+                    { label: "777 hypercar", value: "900", width: 39.1 }
+                ]
+            },
+            {
+                title: "Power-to-Weight Ratio (hp/kg)",
+                data: [
+                    { label: "P-FLEX", value: "2.045-1.786", width: 100, highlight: true },
+                    { label: "Giamaro Katla", value: "1.467", width: 71.6 },
+                    { label: "Hennessey Venom F5", value: "1.336", width: 65.3 },
+                    { label: "Koenigsegg Jesko Absolut", value: "1.151", width: 56.3 },
+                    { label: "Koenigsegg Jesko Attack", value: "1.127", width: 55.1 },
+                    { label: "Aston Martin Valkyrie", value: "1.126", width: 55.1 },
+                    { label: "Bugatti Bolide", value: "1.088", width: 53.2 },
+                    { label: "SSC Tuatara", value: "1.083", width: 53.0 },
+                    { label: "Lotus Evija", value: "1.045", width: 51.1 },
+                    { label: "Czinger 21C V Max", value: "1.011", width: 49.4 },
+                    { label: "Rimac Nevera R", value: "0.925", width: 45.2 },
+                    { label: "Bugatti Tourbillon", value: "0.902", width: 44.1 },
+                    { label: "Nilu Hypercar", value: "0.892", width: 43.6 },
+                    { label: "McMurtry Spéirling", value: "0.833", width: 40.7 },
+                    { label: "Rimac Nevera", value: "0.832", width: 40.7 },
+                    { label: "McLaren Solus GT", value: "0.829", width: 40.5 },
+                    { label: "777 hypercar", value: "0.811", width: 39.7 },
+                    { label: "Praga Bohema", value: "0.713", width: 34.9 },
+                    { label: "GMA T.50", value: "0.663", width: 32.4 },
+                    { label: "McLaren Speedtail", value: "0.649", width: 31.7 }
+                ]
+            },
+            {
+                title: "Top Speed (mph)",
+                data: [
+                    { label: "P-FLEX", value: "340", width: 100, highlight: true },
+                    { label: "Koenigsegg Jesko Absolut", value: "330", width: 97.1 },
+                    { label: "Hennessey Venom F5", value: "310.7", width: 91.4 },
+                    { label: "Bugatti Chiron SS 300+", value: "304.8", width: 89.6 },
+                    { label: "Koenigsegg Jesko Attack", value: "300", width: 88.2 },
+                    { label: "SSC Tuatara", value: "282.9", width: 83.2 },
+                    { label: "Bugatti Tourbillon", value: "276", width: 81.2 },
+                    { label: "Rimac Nevera R", value: "268.2", width: 78.9 },
+                    { label: "Rimac Nevera", value: "258", width: 75.9 },
+                    { label: "Czinger 21C V Max", value: "253", width: 74.4 },
+                    { label: "McLaren Speedtail", value: "250", width: 73.5 },
+                    { label: "Nilu Hypercar", value: "249", width: 73.2 },
+                    { label: "Bugatti Bolide", value: "236", width: 69.4 },
+                    { label: "777 hypercar", value: "230", width: 67.6 },
+                    { label: "GMA T.50", value: "226", width: 66.5 },
+                    { label: "Aston Martin Valkyrie", value: "220", width: 64.7 },
+                    { label: "Lotus Evija", value: "217", width: 63.8 },
+                    { label: "McLaren Solus GT", value: "200", width: 58.8 },
+                    { label: "Praga Bohema", value: "197", width: 57.9 },
+                    { label: "McMurtry Spéirling", value: "190", width: 55.9 }
+                ]
+            },
+            {
+                title: "0-100 km/h Acceleration (seconds)",
+                data: [
+                    { label: "McLaren Speedtail", value: "3.0", width: 100 },
+                    { label: "Lotus Evija", value: "<3.0", width: 100 },
+                    { label: "777 hypercar", value: "<2.9", width: 96.7 },
+                    { label: "P-FLEX", value: "2.8", width: 93.3, highlight: true },
+                    { label: "Koenigsegg Jesko Absolut", value: "2.8", width: 93.3 },
+                    { label: "GMA T.50", value: "2.8", width: 93.3 },
+                    { label: "Hennessey Venom F5", value: "2.6", width: 86.7 },
+                    { label: "SSC Tuatara", value: "<2.5", width: 83.3 },
+                    { label: "McLaren Solus GT", value: "2.5", width: 83.3 },
+                    { label: "Aston Martin Valkyrie", value: "2.5", width: 83.3 },
+                    { label: "Praga Bohema", value: "2.3", width: 76.7 },
+                    { label: "Bugatti Bolide", value: "2.17", width: 72.3 },
+                    { label: "Bugatti Tourbillon", value: "<2.0", width: 66.7 },
+                    { label: "Czinger 21C V Max", value: "1.9", width: 63.3 },
+                    { label: "Rimac Nevera", value: "1.72", width: 57.3 },
+                    { label: "Rimac Nevera R", value: "1.72", width: 57.3 },
+                    { label: "McMurtry Spéirling", value: "1.4", width: 46.7 }
+                ]
+            }
+        ]
+    };
+
+    let currentIndices = {
+        dimensions: 0,
+        aerodynamics: 0,
+        performance: 0
+    };
+
+    function renderChart(category, index) {
+        const data = chartData[category][index];
+        const chart = document.getElementById(`${category}-chart`);
+        
+        chart.innerHTML = data.data.map(item => `
+            <div class="bar-item ${item.highlight ? 'highlight' : ''}">
+                <div class="bar-label">${item.label}</div>
+                <div class="bar-container">
+                    <div class="bar-fill" data-width="${item.width}">
+                        <div class="bar-value">${item.value}</div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        // Animate bars
+        setTimeout(() => {
+            chart.querySelectorAll('.bar-fill').forEach(bar => {
+                const width = bar.dataset.width;
+                bar.style.width = width + '%';
+            });
+        }, 100);
+    }
+
+    function updateNavigation(category) {
+        const currentIndex = currentIndices[category];
+        const maxIndex = chartData[category].length - 1;
+        
+        // Update title
+        document.getElementById(`${category}-title`).textContent = chartData[category][currentIndex].title;
+        
+        // Update navigation buttons
+        const prevBtn = document.getElementById(`${category}-prev`);
+        const nextBtn = document.getElementById(`${category}-next`);
+        
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === maxIndex;
+        
+        // Update indicators
+        const indicators = document.querySelectorAll(`#${category} .indicator-dot`);
+        indicators.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
         });
-    });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Initialize bar charts
+        setTimeout(() => {
+            document.querySelectorAll('.bar-fill').forEach(bar => {
+                const width = bar.dataset.width;
+                bar.style.width = width + '%';
+            });
+        }, 300);
+
+        // Category toggle functionality
+        document.querySelectorAll('.category-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.category-toggle').forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Hide all chart containers
+                document.querySelectorAll('.chart-container').forEach(container => {
+                    container.style.display = 'none';
+                });
+                
+                // Show selected category
+                const category = button.dataset.category;
+                document.getElementById(category).style.display = 'block';
+                
+                // Initialize chart for categories with navigation
+                if (category !== 'economics') {
+                    renderChart(category, currentIndices[category]);
+                    updateNavigation(category);
+                }
+            });
+        });
+
+        // Navigation functionality
+        ['dimensions', 'aerodynamics', 'performance'].forEach(category => {
+            document.getElementById(`${category}-prev`).addEventListener('click', () => {
+                if (currentIndices[category] > 0) {
+                    currentIndices[category]--;
+                    renderChart(category, currentIndices[category]);
+                    updateNavigation(category);
+                }
+            });
+
+            document.getElementById(`${category}-next`).addEventListener('click', () => {
+                if (currentIndices[category] < chartData[category].length - 1) {
+                    currentIndices[category]++;
+                    renderChart(category, currentIndices[category]);
+                    updateNavigation(category);
+                }
+            });
+        });
+
+        // Show dimensions category by default
+        document.querySelector('[data-category="dimensions"]').classList.add('active');
+        document.getElementById('dimensions').style.display = 'block';
+        renderChart('dimensions', 0);
+        updateNavigation('dimensions');
+
+        // ================================================================================================
+        // Sketches slideshow
+        const scratchForms = [
+            { src: "images/sketch2.jpg", caption: "Intriguing" },
+            { src: "images/sketch3.jpg", caption: "Intriguing" },
+            { src: "images/sketch4.jpg", caption: "Intriguing" },
+            { src: "images/sketch5.jpg", caption: "Intriguing" },
+            { src: "images/sketch6.jpg", caption: "Intriguing" },
+            { src: "images/sketch7.jpg", caption: "Intriguing" },
+            { src: "images/sketch8.jpg", caption: "Intriguing" },
+            { src: "images/sketch9.jpg", caption: "Somewhat intriguing" },
+            { src: "images/sketch10.jpg", caption: "Shit" },
+            { src: "images/sketch11.jpg", caption: "Shit" },
+            { src: "images/sketch12.jpg", caption: "Somewhat intriguing" },
+            { src: "images/sketch13.jpg", caption: "Somewhat intriguing" },
+            { src: "images/sketch14.jpg", caption: "Intriguing" },
+            { src: "images/sketch15.jpg", caption: "Intriguing" }
+        ];
+        
+        let scratchIndex = 0;
+        const scratchImg = document.querySelector("#scratch-display img");
+        const scratchCaption = document.getElementById("scratch-caption");
+
+        function updateScratchForm() {
+            scratchImg.src = scratchForms[scratchIndex].src;
+            scratchImg.alt = scratchForms[scratchIndex].caption;
+            scratchCaption.textContent = scratchForms[scratchIndex].caption;
+        }
+
+        document.getElementById("scratch-prev").addEventListener("click", () => {
+            scratchIndex = (scratchIndex - 1 + scratchForms.length) % scratchForms.length;
+            updateScratchForm();
+        });
+
+        document.getElementById("scratch-next").addEventListener("click", () => {
+            scratchIndex = (scratchIndex + 1) % scratchForms.length;
+            updateScratchForm();
+        });
     });
 </script>
 <body>
@@ -31,19 +411,19 @@
         </p>
         <p><strong>What could the next game-changing automobile look like?</strong></p>
         <p>
-            For many of you who think the hypercar world is very much saturated… Here’s something refreshing…
+            For many of you who think the hypercar world is very much saturated… Here's something refreshing…
         </p>
 
         <h2>Intro</h2>
         <h3>The Proned Posture</h3>
         <p>
-            The ‘prone’ driver seating posture has been well-practiced throughout history and
+            The 'prone' driver seating posture has been well-practiced throughout history and
             proven valid in terms of aesthetics and performance, once with jets (Figure 1), now
             with hang gliders. But on the ground, the advantages are commonly associated with
             bikes: The record-breaking motorcycles have already proved that the proned position
             led to outstanding aerodynamics. This also turned out to be true for WMC250EV
             (Figures 2-5, with a rather crawling-style posture). While the main cheat code was its
-            duct, its seating posture did have an effect (the duct couldn’t have worked without it).
+            duct, its seating posture did have an effect (the duct couldn't have worked without it).
         </p>
 
         <div class="figure">
@@ -70,7 +450,7 @@
         </div>
 
         <p>
-            Applying the prone posture to four-wheel cars normally wouldn’t work out due to
+            Applying the prone posture to four-wheel cars normally wouldn't work out due to
             some obvious reasons. Firstly, the debate on safety issues relative to weird
             ergonomics & comfort; Secondly, people wonder what the odds of such a design
             being actually useful are.
@@ -103,7 +483,7 @@
 
         <p>
             The fact is, maybe a car fitted with a motorcycle drive system and seating position
-            was a good concept, but the purpose of doing so other than ‘eye-catching’ wasn’t
+            was a good concept, but the purpose of doing so other than 'eye-catching' wasn't
             well-explored, and engineering specifics needed to be refined according to the two
             problem statements discussed in question.
         </p>
@@ -117,7 +497,7 @@
         <ol>
             <li>
                 Only a proned single-seater would allow space for the duct to go through the middle, and the duct causes limited space for designing a good seating layout. 
-                The vehicle’s ergonomics will end up being disastrous.
+                The vehicle's ergonomics will end up being disastrous.
             </li>
             <li>
                 We also have other parts (e.g. power train) blocking the way. If we go EV, we could possibly rearrange some of the parts e.g. battery pack, 
@@ -126,13 +506,13 @@
         </ol>
 
         <p>
-            So now let’s forget about the center duct. 
+            So now let's forget about the center duct. 
             As a replacement, the proned seating cockpit shall be manufactured with the hollow sections entirely encapsulating the transmission shaft. <strong>The retaining advantages are still massive</strong>:
         </p>
         <ol>
             <li>
                 A single seater structure not only implies less weight, but also a narrower cockpit, and the overall width of the vehicle can be reduced. 
-                That’s a large decrease in frontal area in direct contact with airflow. 
+                That's a large decrease in frontal area in direct contact with airflow. 
             </li>
             <li>
                 Proned structure implies reduction in overall vehicle height, and further reduction in frontal area.
@@ -153,8 +533,12 @@
         <p><strong>Anatomy: Proned Single-profile Cockpit</strong></p>
 
         <div class="figure">
-            <img src="images/anatomy.jpg" alt="Anatomy">
-            <div class="figure-caption">Figure 9</div>
+            <img src="images/anatomy1.jpg" alt="Anatomy 1">
+            <div class="figure-caption">Anatomy 1</div>
+        </div>
+        <div class="figure">
+            <img src="images/anatomy2.jpg" alt="Anatomy 2">
+            <div class="figure-caption">Anatomy 2</div>
         </div>
 
         <h2>Aerodynamics Part 1</h2>
@@ -205,9 +589,9 @@
             <tr><th>Power</th><td>1800 hp</td></tr>
             <tr><th>Torque</th><td>1000 Nm</td></tr>
             <tr><th>Vmax</th><td>350 mph</td></tr>
-            <tr><th>Acceleration</th><td>0–100 km/h &lt; 2.5s; 0–400–0 &lt; 28s</td></tr>
+            <tr><th>Acceleration</th><td>0-100 km/h &lt; 2.5s; 0-400-0 &lt; 28s</td></tr>
             <tr><th>C<sub>d</sub></th><td>0.230</td></tr>
-            <tr><th>Wheels</th><td>20” front, 21” rear</td></tr>
+            <tr><th>Wheels</th><td>20" front, 21" rear</td></tr>
             <tr><th>Transmission</th><td>RWD</td></tr>
         </table>
 
@@ -217,7 +601,7 @@
             <li>
                 The current plan is to use RWD but the drag race between Chiron SS and
                 Koenigsegg Jesko Attack shows AWD was apparently better at tackling traction
-                issues. With the current setup I’m uncertain if we can adopt AWD.
+                issues. With the current setup I'm uncertain if we can adopt AWD.
             </li>
             <li>
                 The latest sketch demonstrates the same wheel base length as that of the
@@ -379,415 +763,251 @@
             </div>
         </div>
 
+        <h2>Scratch Forms</h2>
+        <p>Some early scratch form explorations. Use arrows to browse through them.</p>
+        <p>
+            Sorted according to Self-evaluated Labels: Shit ‹ Somehow Intriguing ‹ Intriguing ‹ Workable.
+        </p>
+
+        <div class="scratch-forms">
+            <button class="nav-arrow" id="scratch-prev">‹</button>
+            
+            <div class="figure" id="scratch-display">
+                <img src="images/sketch1.jpg" alt="Intriguing">
+                <div class="figure-caption" id="scratch-caption">Scratch Form 1</div>
+            </div>
+            
+            <button class="nav-arrow" id="scratch-next">›</button>
+        </div>
+
         <h2>Comparative Stats</h2>
         <p>
             We expect a number of improvements compared to traditional hypercars.
         </p>
-        <!-- Tree structure to display comparative stats -->
-        <div class="tree">
-            <ul>
 
-                <!-- Main categories -->
-                <li>
-                    <span class="tree-label toggle">Dimensions</span>
-                    <ul>
-                        <li>
-                            <span class="tree-label toggle">Overall height (mm)</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">924–1008 (Projected)</span>
-                                </li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">1220</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">1210</span></li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">1210</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">1208</span></li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">1208</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">1189</span></li>
-                                <li><span class="car">Giamaro Katla</span> <span class="value">1188</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">1164</span></li>
-                                <li><span class="car">777 hypercar</span> <span class="value">1151</span></li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">1130</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">1122</span></li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">1120</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">1100</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">1092</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">1070</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">1067</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">1060</span></li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">1020</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">995</span></li>
-                            </ul>
-                        </li>
+        <div class="category-buttons">
+            <button class="category-toggle" data-category="dimensions">Dimensions</button>
+            <button class="category-toggle" data-category="aerodynamics">Aerodynamics</button>
+            <button class="category-toggle" data-category="performance">Performance</button>
+            <button class="category-toggle" data-category="economics">Economics</button>
+        </div>
 
-                        <li>
-                            <span class="tree-label toggle">Width (mm)</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">1600–1860</span>
-                                </li>
-                                <li><span class="car">Giamaro Katla</span> <span class="value">2250</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">2100</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">2065</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">2051</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">2050</span></li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">2045</span></li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">2030</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">2030</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">2000</span></li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">2000</span></li>
-                                <li><span class="car">777 hypercar</span> <span class="value">2000</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">2000</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">1965</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">1986</span></li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">1986</span></li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">1971</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">1850</span></li>
-                                <li><span class="car">McMurtry Spéirling Pure</span> <span class="value">1580</span></li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">1500</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">N/A</span></li>
-                            </ul>
-                        </li>
+        <div id="dimensions" class="chart-container">
+            <div class="chart-title-container">
+                <button class="nav-arrow" id="dimensions-prev">‹</button>
+                <div class="chart-title" id="dimensions-title">Overall Height (mm)</div>
+                <button class="nav-arrow" id="dimensions-next">›</button>
+                <div class="section-indicator">
+                    <div class="indicator-dot active"></div>
+                    <div class="indicator-dot"></div>
+                    <div class="indicator-dot"></div>
+                </div>
+            </div>
+            
+            <div class="bar-chart" id="dimensions-chart">
+                <!-- Height chart will be populated here -->
+            </div>
+        </div>
 
-                        <li>
-                            <span class="tree-label toggle">Length (mm)</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">4000–4370 (Targeted)</span>
-                                </li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">5137</span></li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">5000</span></li>
-                                <li><span class="car">777 hypercar</span> <span class="value">5000</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">4877</span></li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">4845</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">4835</span></li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">4750</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">4750</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">4671</span></li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">4666</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">4633</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">4610</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">4510</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">4500</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">4459</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">4352</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">N/A</span></li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">3450</span></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+        <div id="aerodynamics" class="chart-container" style="display: none;">
+            <div class="chart-title-container">
+                <button class="nav-arrow" id="aerodynamics-prev">‹</button>
+                <div class="chart-title" id="aerodynamics-title">Frontal Area (m²)</div>
+                <button class="nav-arrow" id="aerodynamics-next">›</button>
+                <div class="section-indicator">
+                    <div class="indicator-dot active"></div>
+                    <div class="indicator-dot"></div>
+                </div>
+            </div>
+            
+            <div class="bar-chart" id="aerodynamics-chart">
+                <!-- Aerodynamics chart will be populated here -->
+            </div>
+        </div>
 
-                <li>
-                    <span class="tree-label toggle">Aerodynamics</span>
-                    <ul>
-                        <li>
-                            <span class="tree-label toggle">Frontal area (m²)</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">1.6 (Projected)</span>
-                                </li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">3</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">3</span></li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">3</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">3</span></li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">3</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">3</span></li>
-                                <li><span class="car">Giamaro Katla</span> <span class="value">3</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">3</span></li>
-                                <li><span class="car">777 hypercar</span> <span class="value">3</span></li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">3</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">3</span></li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">3</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">3</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">3</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">3</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">3</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">3</span></li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">3</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">3</span></li>
-                            </ul>
-                        </li>
+        <div id="performance" class="chart-container" style="display: none;">
+            <div class="chart-title-container">
+                <button class="nav-arrow" id="performance-prev">‹</button>
+                <div class="chart-title" id="performance-title">Power (hp)</div>
+                <button class="nav-arrow" id="performance-next">›</button>
+                <div class="section-indicator">
+                    <div class="indicator-dot active"></div>
+                    <div class="indicator-dot"></div>
+                    <div class="indicator-dot"></div>
+                    <div class="indicator-dot"></div>
+                    <div class="indicator-dot"></div>
+                </div>
+            </div>
+            
+            <div class="bar-chart" id="performance-chart">
+                <!-- Performance chart will be populated here -->
+            </div>
+        </div>
 
-                        <li>
-                            <span class="tree-label toggle">C<sub>d</sub> value</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">0.180–0.280 (Projected, depending on spec)</span>
-                                </li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">0.39</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">0.30</span></li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">0.30</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">0.279</span></li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">0.278</span></li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">0.278</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">N/A</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">N/A</span></li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">N/A</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">N/A</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">N/A</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">N/A</span></li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">N/A</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">N/A</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">N/A</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">N/A</span></li>
-                                <li><span class="car">777 hypercar</span> <span class="value">N/A</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">N/A</span></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <span class="tree-label toggle">Performance</span>
-                    <ul>
-                        <li>
-                            <span class="tree-label toggle">Power (hp)</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">1800 (Projected)</span>
-                                </li>
-                                <li><span class="car">Giamaro Katla</span> <span class="value">2127</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">2107</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">1972</span></li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">1914</span></li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">1817</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">1800</span></li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">1600 (E85)–1280</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">1600 (E85)–1280</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">1578</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">1350</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">1350</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">1160</span></li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">1070</span></li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">1036</span></li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">1000</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">829</span></li>
-                                <li><span class="car">777 hypercar</span> <span class="value">730</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">700</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">654</span></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <span class="tree-label toggle">Weight (kg)</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">880–1008 curb (Projected)</span>
-                                </li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">2300 curb</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">2277 curb</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">1995 curb</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">1887 curb</span></li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">1597 curb</span></li>
-                                <li><span class="car">Giamaro Katla</span> <span class="value">1451 curb</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">1450 dry</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">1420 curb</span></li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">1390 curb</span></li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">1360 dry</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">1335 curb</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">1247 curb</span></li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">1200 dry</span></li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">1200</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">1030 curb</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">1000 curb</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">986–997 dry</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">982 curb</span></li>
-                                <li><span class="car">777 hypercar</span> <span class="value">900</span></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <span class="tree-label toggle">P/W ratio</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">2.045–1.786</span>
-                                </li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">1.336</span></li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">1.151</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">1.127</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">1.126</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">1.088</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">1.083</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">1.045</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">1.011</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">0.925</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">0.902</span></li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">0.892</span></li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">0.833</span></li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">0.832</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">0.829</span></li>
-                                <li><span class="car">777 hypercar</span> <span class="value">0.811</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">0.713</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">0.663</span></li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">0.649</span></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <span class="tree-label toggle">Top Speed (mph)</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">340 (Targeted)</span>
-                                </li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">330 Potentially</span></li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">310.7 Potentially</span></li>
-                                <li><span class="car">Bugatti Chiron SS 300+</span> <span class="value">304.773</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">300 Potentially</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">282.9</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">276</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">268.2</span></li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">258</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">253</span></li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">250</span></li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">249</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">236</span></li>
-                                <li><span class="car">777 hypercar</span> <span class="value">230</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">226</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">220</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">217</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">200</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">197</span></li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">190</span></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <span class="tree-label toggle">0–100 km/h (s)</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">2.8 (Targeted)</span>
-                                </li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">1.4</span></li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">1.72</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">1.72</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">1.9</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">&lt;2.0</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">2.17</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">2.3</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">&lt;2.5</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">2.5</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">2.5</span></li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">2.6</span></li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">2.8</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">2.8</span></li>
-                                <li><span class="car">777 hypercar</span> <span class="value">&lt;2.9</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">&lt;3</span></li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">3</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">3.34</span></li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">N/A</span></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <span class="tree-label toggle">Economics</span>
-                    <ul>
-                        <li>
-                            <span class="tree-label toggle">Pricing ($MM)</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">3.2–3.7 (Projected)</span>
-                                </li>
-                                <li><span class="car">777 hypercar</span> <span class="value">7.65</span></li>
-                                <li><span class="car">Bugatti Bolide</span> <span class="value">4–5</span></li>
-                                <li><span class="car">Bugatti Tourbillon</span> <span class="value">4.1</span></li>
-                                <li><span class="car">McLaren Solus GT</span> <span class="value">4</span></li>
-                                <li><span class="car">Aston Martin Valkyrie</span> <span class="value">3.5–4</span></li>
-                                <li><span class="car">Koenigsegg Jesko Absolut</span> <span class="value">3.4–3.7</span></li>
-                                <li><span class="car">GMA T.50</span> <span class="value">3.15–3.5</span></li>
-                                <li><span class="car">Koenigsegg Jesko Attack</span> <span class="value">3–3.4</span></li>
-                                <li><span class="car">Hennessey Venom F5</span> <span class="value">3–3.285</span></li>
-                                <li><span class="car">Nilu Hypercar</span> <span class="value">2.8–3.7</span></li>
-                                <li><span class="car">Giamaro Katla</span> <span class="value">2.8</span></li>
-                                <li><span class="car">Rimac Nevera R</span> <span class="value">2.7</span></li>
-                                <li><span class="car">Lotus Evija</span> <span class="value">2.3–2.4</span></li>
-                                <li><span class="car">McLaren Speedtail</span> <span class="value">2.25</span></li>
-                                <li><span class="car">Rimac Nevera</span> <span class="value">2.2–2.5</span></li>
-                                <li><span class="car">Czinger 21C V Max</span> <span class="value">2</span></li>
-                                <li><span class="car">SSC Tuatara</span> <span class="value">1.6–1.9</span></li>
-                                <li><span class="car">Praga Bohema</span> <span class="value">1.35–1.66</span></li>
-                                <li><span class="car">McMurtry Spéirling</span> <span class="value">1.04–1.25</span></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <span class="tree-label toggle">eXperimental Measurements</span>
-                    <ul>
-                        <li>
-                            <span class="tree-label toggle">Height (mm) among XM</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">924–1008 (Projected)</span>
-                                </li>
-                                <li><span class="car">Volkswagen ARVW</span> <span class="value">838</span></li>
-                                <li><span class="car">Audi Union Type C Streamliner</span> <span class="value">889</span></li>
-                                <li><span class="car">Mercedes W125</span> <span class="value">1200</span></li>
-                                <li><span class="car">Mercedes T80</span> <span class="value">1245</span></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <span class="tree-label toggle">Width (mm) among XM</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">1600–1860</span>
-                                </li>
-                                <li><span class="car">Mercedes W125</span> <span class="value">1850</span></li>
-                                <li><span class="car">Audi Union Type C Streamliner</span> <span class="value">1760</span></li>
-                                <li><span class="car">Mercedes T80</span> <span class="value">1753/3200 w/wing</span></li>
-                                <li><span class="car">Volkswagen ARVW</span> <span class="value">1100</span></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <span class="tree-label toggle">C<sub>d</sub> value among XM</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">0.180–0.280 (Projected, depending on spec)</span>
-                                </li>
-                                <li><span class="car">Volkswagen ARVW</span> <span class="value">0.15</span></li>
-                                <li><span class="car">Mercedes W125</span> <span class="value">0.15–0.17</span></li>
-                                <li><span class="car">Mercedes T80</span> <span class="value">0.18</span></li>
-                                <li><span class="car">Audi Union Type C Streamliner</span> <span class="value">298</span></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <span class="tree-label toggle">Top speed (mph) among XM</span>
-                            <ul>
-                                <li class="highlight">
-                                    <span class="car">P-FLEX</span>
-                                    <span class="value">340 (Targeted)</span>
-                                </li>
-                                <li><span class="car">Johnny Bohmer BADD GT</span> <span class="value">330 potentially</span></li>
-                                <li><span class="car">Audi Union Type C Streamliner</span> <span class="value">298</span></li>
-                                <li><span class="car">Mercedes W125</span> <span class="value">271.5</span></li>
-                                <li><span class="car">Mercedes T80</span> <span class="value">Debatable</span></li>
-                                <li><span class="car">Volkswagen ARVW</span> <span class="value">225</span></li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </li>
-
-            </ul>
+        <div id="economics" class="chart-container" style="display: none;">
+            <div class="chart-title">Pricing ($MM)</div>
+            <div class="bar-chart">
+                <div class="bar-item">
+                    <div class="bar-label">777 hypercar</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="100">
+                            <div class="bar-value">7.65</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Bugatti Bolide</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="65.4">
+                            <div class="bar-value">4-5</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Bugatti Tourbillon</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="53.6">
+                            <div class="bar-value">4.1</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">McLaren Solus GT</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="52.3">
+                            <div class="bar-value">4</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Aston Martin Valkyrie</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="49.0">
+                            <div class="bar-value">3.5-4</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item highlight">
+                    <div class="bar-label">P-FLEX</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="48.4">
+                            <div class="bar-value">3.2-3.7</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Koenigsegg Jesko Absolut</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="46.4">
+                            <div class="bar-value">3.4-3.7</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">GMA T.50</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="43.5">
+                            <div class="bar-value">3.15-3.5</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Koenigsegg Jesko Attack</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="42.9">
+                            <div class="bar-value">3-3.4</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Hennessey Venom F5</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="42.9">
+                            <div class="bar-value">3-3.285</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Nilu Hypercar</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="42.9">
+                            <div class="bar-value">2.8-3.7</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Giamaro Katla</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="36.6">
+                            <div class="bar-value">2.8</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Rimac Nevera R</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="35.3">
+                            <div class="bar-value">2.7</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Lotus Evija</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="31.4">
+                            <div class="bar-value">2.3-2.4</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">McLaren Speedtail</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="29.4">
+                            <div class="bar-value">2.25</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Rimac Nevera</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="30.7">
+                            <div class="bar-value">2.2-2.5</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Czinger 21C V Max</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="26.1">
+                            <div class="bar-value">2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">SSC Tuatara</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="22.9">
+                            <div class="bar-value">1.6-1.9</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">Praga Bohema</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="19.7">
+                            <div class="bar-value">1.35-1.66</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label">McMurtry Spéirling</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="15.0">
+                            <div class="bar-value">1.04-1.25</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <h2>Why we are doing this</h2>
@@ -816,7 +1036,7 @@
         <h2>Who am I?</h2>
         <p>
             My name is Richard Wang. I studied physics and business economics at UC San Diego. 
-            More on <a href="http://richardw_13.com" target="_blank" class="contributor-link">richardw_13.com</a>
+            More on <a href="http://richardw_37.com" target="_blank" class="contributor-link">richardw_13.com</a>
         </p>
 
         <h2>Questions in mind</h2>
