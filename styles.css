@@ -341,6 +341,11 @@ li {
     margin-bottom: 30px;
 }
 
+.highlight-number {
+    color: #00d4ff;
+    font-weight: 700;
+}
+
 /* Mobile responsive styles */
 @media (max-width: 768px) {
     .container {

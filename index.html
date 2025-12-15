@@ -87,31 +87,6 @@
         ],
         aerodynamics: [
             {
-                title: "Frontal Area (m²)",
-                data: [
-                    { label: "Nilu Hypercar", value: "3.0", width: 100 },
-                    { label: "Koenigsegg Jesko Attack", value: "3.0", width: 100 },
-                    { label: "Koenigsegg Jesko Absolut", value: "3.0", width: 100 },
-                    { label: "Rimac Nevera R", value: "3.0", width: 100 },
-                    { label: "Rimac Nevera", value: "3.0", width: 100 },
-                    { label: "Bugatti Tourbillon", value: "3.0", width: 100 },
-                    { label: "Giamaro Katla", value: "3.0", width: 100 },
-                    { label: "GMA T.50", value: "3.0", width: 100 },
-                    { label: "777 hypercar", value: "3.0", width: 100 },
-                    { label: "Hennessey Venom F5", value: "3.0", width: 100 },
-                    { label: "Lotus Evija", value: "3.0", width: 100 },
-                    { label: "McLaren Speedtail", value: "3.0", width: 100 },
-                    { label: "McLaren Solus GT", value: "3.0", width: 100 },
-                    { label: "Czinger 21C V Max", value: "3.0", width: 100 },
-                    { label: "Aston Martin Valkyrie", value: "3.0", width: 100 },
-                    { label: "SSC Tuatara", value: "3.0", width: 100 },
-                    { label: "Praga Bohema", value: "3.0", width: 100 },
-                    { label: "McMurtry Spéirling", value: "3.0", width: 100 },
-                    { label: "Bugatti Bolide", value: "3.0", width: 100 },
-                    { label: "P-FLEX", value: "1.6", width: 53.3, highlight: true }
-                ]
-            },
-            {
                 title: "Cd Value",
                 data: [
                     { label: "Hennessey Venom F5", value: "0.39", width: 100 },
@@ -403,16 +378,17 @@
 </script>
 <body>
     <div class="container">
-        <h1>P-FLEX / P-FLEX CD</h1>
+        <h1>Prone Hypercar</h1>
 
         <p>
-            Lamborghini Miura, introduced in 1966, is widely considered the first supercar. Then
-            McLaren F1 coined the term hypercar. After that came the era of Koenigsegg,
-            Bugatti, Hennessey, SSC, etc.
+            In 1966, the Lamborghini Miura set the template for the supercar. Decades later, the McLaren F1 pushed so far ahead it gave birth to the word hypercar. 
+            Koenigsegg, Bugatti, Hennessey, SSC and others carried the torch, chasing ever higher extremes, until the domain gets once again saturated nowadays. 
+            We think a new chapter shall start with something unconventional.
         </p>
         <p><strong>What could the next game-changing automobile look like?</strong></p>
         <p>
-            For many of you who think the hypercar world is very much saturated… Here's something refreshing…
+            The Prone Hypercar is a street-legal V12 single-seater hypercar utilizing a prone seating structure in an enclosed cockpit. 
+            This unprecedented structure supposedly creates massive record-breaking potential due to the resulting vehicle having a dramatically reduced frontal area and curb weight.
         </p>
 
         <h2>Intro</h2>
@@ -489,7 +465,7 @@
             problem statements discussed in question.
         </p>
 
-        <h2>P-FLEX (Proned Driving Hypercar)</h2>
+        <h2>Prone Hypercar Structure Explained</h2>
         <h3>Thesis</h3>
         <p>
             Our very initial idea was to create a hypercar with a center duct, like the WMC250EV, 
@@ -586,13 +562,15 @@
 
         <h2>Target Specifications</h2>
         <table class="specs-table">
-            <tr><th>Weight</th><td>&lt; 880 kg</td></tr>
+            <tr><th>Weight (Curb)</th><td>880 - 1008 kg</td></tr>
             <tr><th>Power</th><td>1800 hp</td></tr>
             <tr><th>Torque</th><td>1000 Nm</td></tr>
             <tr><th>Vmax</th><td>350 mph</td></tr>
             <tr><th>Acceleration</th><td>0-100 km/h &lt; 2.5s; 0-400-0 &lt; 28s</td></tr>
             <tr><th>C<sub>d</sub></th><td>0.230</td></tr>
-            <tr><th>Wheels</th><td>20" front, 21" rear</td></tr>
+            <tr><th>Wheelbase</th><td>2700 mm (L539 Aventador) or 2279 mm (Revuelto)</td></tr>
+            <tr><th>Ground Clearance</th><td>10cm (High-speed), 14cm (Normal), 17cm (Obstacle)</td></tr>
+            <tr><th>Wheels</th><td>20" front, 21" rear w/ wheel covers</td></tr>
             <tr><th>Transmission</th><td>RWD</td></tr>
         </table>
 
@@ -600,19 +578,19 @@
         <ol>
             <li>Restraints: tires, braking, stability, airbags, ABS, traction control.</li>
             <li>
-                The current plan is to use RWD but the drag race between Chiron SS and
-                Koenigsegg Jesko Attack shows AWD was apparently better at tackling traction
-                issues. With the current setup I'm uncertain if we can adopt AWD.
+                The current plan is to use RWD. While the drag race between Chiron SS and
+                Koenigsegg Jesko Attack suggested AWD handles traction better, we initially thought
+                AWD was impossible. <strong>Correction:</strong> We <em>can</em> adopt AWD if we obtain an Aventador chassis,
+                though that frames is very large.
             </li>
             <li>
                 The latest sketch demonstrates the same wheel base length as that of the
-                Aventador, but during actual development, we will either have to shorten the
-                length of the chassis, or scale the chassis down (thus the wheels will also be scaled
-                down). We could:
+                Aventador (2700mm). During actual development, we will either shorten the chassis or scale it down.
+                <strong>Current chassis options:</strong>
                 <ul>
-                    <li>Obtain an Aventador chassis and build the rest on top;</li>
-                    <li>Obtain an Aston Martin V12 Vantage chassis, build the rest on top;</li>
-                    <li>Obtain an Aventador chassis and make it an SWB?</li>
+                    <li>a) Obtain a Lotus Exige chassis, build the rest on top;</li>
+                    <li>b) Obtain an Aventador chassis and make it an SWB (Short Wheel Base);</li>
+                    <li>c) Obtain an Aston Martin V12 Vantage chassis.</li>
                 </ul>
             </li>
             <li>Homologation: Still lots of mods needed to go street-legal.</li>
@@ -635,6 +613,9 @@
             <li>Founding Engineers #-</li>
         </ul>
 
+        <h2>Financials</h2>
+        <p><strong>Prototype / Angel Budget:</strong> Target <span class="highlight-number">$20 MM Total</span>.</p>
+
         <h2>Prototype Plan</h2>
         <p><strong>Seek partnership with:</strong> Mcmurtry Automotive, Gintani, Divergent 3D, Michelin</p>
         <p><strong>Others:</strong> Supercar Owners Circle, MIT, Princeton MAE</p>
@@ -648,7 +629,13 @@
 
         <h2>Production Plan</h2>
         <p>Two fully-functional prototypes.</p>
-        <p>Production series TBA</p>
+        <p>Production series</p>
+        <ul>
+            <li>Standard (100% enclosed) 30 units</li>
+            <li>Speedster (Open top) 10 units</li>
+            <li>Track 10 units</li>
+            <li>CD (Drag minimization) 10 units</li>
+        </ul>
 
         <h2>Future Steps</h2>
         <ol>
@@ -813,11 +800,10 @@
         <div id="aerodynamics" class="chart-container" style="display: none;">
             <div class="chart-title-container">
                 <button class="nav-arrow" id="aerodynamics-prev">‹</button>
-                <div class="chart-title" id="aerodynamics-title">Frontal Area (m²)</div>
+                <div class="chart-title" id="aerodynamics-title">Cd Value</div>
                 <button class="nav-arrow" id="aerodynamics-next">›</button>
                 <div class="section-indicator">
                     <div class="indicator-dot active"></div>
-                    <div class="indicator-dot"></div>
                 </div>
             </div>
             
@@ -1011,26 +997,33 @@
             </div>
         </div>
 
-        <h2>Why we are doing this</h2>
+        <h2>Company & Mission</h2>
+        <p>
+            The Prone Hypercar project is currently listed under <strong>Celerframe, Inc.</strong> (Track 2).
+        </p>
+        <p><strong>Track 2 Mission Statement:</strong></p>
+        <p>
+            Very few wild automotive concepts come into real life. We are here to select certain controversial designs, 
+            reassess their usability & potential, and hopefully take them beyond the prototype stage to satisfy more legitimate purposes.
+        </p>
+        
+        <h3>Why we are doing this</h3>
         <ol>
             <li>
-                Not every automaker had the first intent to solve important world-scale problems or build the future 
-                for the greater good, e.g. Tesla, but apparently, many innovators in automotive gain lots of attention 
-                and propelled the development of new technology on its way without the immediate intention of doing so, 
-                due to the comprehensiveness of automotive engineering.
+                <strong>To solve world-scale problems:</strong> Not every automaker started with this intent, but innovations 
+                in automotive engineering often propel technology forward for the greater good.
             </li>
             <li>
-                Many wanted to start their own supercar company regardless if they had the buck or not, but nowadays 
-                the automotive (hypercar, typically) world is very much saturated. We must do something very different 
-                to stand out.
+                <strong>To stand out in a saturated market:</strong> The hypercar world is crowded. We must do something 
+                fundamentally different.
             </li>
             <li>
-                This project is believed to be the easiest way to beat Koenigsegg & Bugatti without high-end innovations 
-                to the powertrain.
+                <strong>Strategic Advantage:</strong> This project is believed to be the easiest way to beat competitors like 
+                Koenigsegg & Bugatti without requiring impossible high-end innovations to the powertrain itself—aerodynamics is the key.
             </li>
             <li>
-                The ultimate idea we want to express via extreme execution is that, sometimes controversy shouldn't 
-                stop us down from doing things.
+                <strong>Philosophy:</strong> The ultimate idea we want to express is that sometimes controversy shouldn't 
+                stop us from execution.
             </li>
         </ol>
 
@@ -1039,34 +1032,6 @@
             My name is Richard Wang. I studied physics and business economics at UC San Diego. 
             More on <a href="http://richardw_37.com" target="_blank" class="contributor-link">richardw_13.com</a>
         </p>
-        <!--
-        <h2>Questions in mind</h2>
-        <ol>
-            <li>
-                Our current restraints are: Tire technology, braking, stability control, airbags, ABS, traction control.
-            </li>
-            <li>
-                The current plan is to use RWD but as we see the drag race between Chiron SS and Koenigsegg Jesko Attack, 
-                the AWD Chiron SS was apparently better at tackling traction issues. With the current setup I'm uncertain 
-                if we can adopt AWD.
-            </li>
-            <li>
-                The latest sketch: Wheel base length is the same as that of the Aventador, but when we work on the actual 
-                chassis, either we will have to shorten the length, or we scale it down (but that also means the wheels 
-                will be scaled down). We could:
-                <ol>
-                    <li>Obtain an Aventador chassis and build the rest on top;</li>
-                    <li>Obtain an Aston Martin V12 Vantage chassis, build the rest on top;</li>
-                    <li>Obtain an Aventador chassis and make it an SWB?</li>
-                </ol>
-            </li>
-            <li>
-                Still, lots of mods needed to go street-legal! E.g. Where do we place the mirrors? AC& airbag design
-            </li>
-            <li>H-point</li>
-            <li>How do we design the doors?</li>
-        </ol>
-        -->
 
         <!-- Contribution Note -->
         <div class="contribution-note">
